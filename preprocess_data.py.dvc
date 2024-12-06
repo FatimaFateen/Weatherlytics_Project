@@ -1,0 +1,5 @@
+outs:
+- md5: 555d7ea624a96d5a41b8f784e45c02db
+  size: 480
+  hash: md5
+  path: preprocess_data.py
