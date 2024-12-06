@@ -15,9 +15,11 @@ x-airflow-common:
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
   volumes:
-    - /absolute/path/to/dags:/opt/airflow/dags
-    - /absolute/path/to/logs:/opt/airflow/logs
-    - /absolute/path/to/plugins:/opt/airflow/plugins
+    - C:/Users/DELL/Documents/GitHub/Weatherlytics_Project/airflow/dags:/opt/airflow/dags
+    - C:/Users/DELL/Documents/GitHub/Weatherlytics_Project/airflow/logs:/opt/airflow/logs
+    - C:/Users/DELL/Documents/GitHub/Weatherlytics_Project/airflow/plugins:/opt/airflow/plugins
+    - C:/Users/DELL/Documents/GitHub/Weatherlytics_Project/airflow/logs:/opt/airflow/logs
+
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
