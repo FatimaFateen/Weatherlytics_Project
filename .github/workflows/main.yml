@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - prod
 
 jobs:
   build-and-deploy:
@@ -57,3 +57,7 @@ jobs:
         # Apply frontend deployment and service YAML files
         kubectl apply -f frontend-deployment.yaml
         kubectl apply -f frontend-service.yaml
+        # Apply database deployment and service YAML files
+        kubectl apply -f database-deployment.yaml
+        kubectl apply -f database-service.yaml
+
