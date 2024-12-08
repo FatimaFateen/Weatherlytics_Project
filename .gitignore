@@ -58,7 +58,7 @@ build/
 
 # Frontend dependency files
 yarn.lock
-package-lock.json
+
 
 # If you use any other sensitive files like keys, add them here
 *.pem
