@@ -8,8 +8,10 @@ Key features include DVC for managing datasets and model artifacts, MLFlow for e
 
 This project highlights the practical implementation of MLOps principles, making it a valuable portfolio piece. With its modular design and automated workflows, it demonstrates how to effectively integrate machine learning with full-stack development and deployment.
 
-
-
+CONTRIBUTORS
+20i-2328
+20i-2302
+20i-0691
 
 
 
