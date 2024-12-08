@@ -3,12 +3,14 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 import subprocess
 
+# Define functions to execute your scripts
 def fetch_weather():
-    subprocess.run(["python", "fetch_weather_data.py"])
+    subprocess.run(["python", "fetch_weather_data.py"], check=True)
 
 def preprocess_weather():
-    subprocess.run(["python", "preprocess_data.py"])
+    subprocess.run(["python", "preprocess_data.py"], check=True)
 
+# Default arguments for the DAG
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -18,6 +20,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+# Define the DAG
 with DAG(
     'weather_pipeline',
     default_args=default_args,
@@ -37,4 +40,6 @@ with DAG(
         python_callable=preprocess_weather
     )
 
-    fetch_task >> preprocess_task
+    # Define task dependencies
+    fetch_task.set_downstream(preprocess_task)
+

@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1733657893048
+current_stage: Staging
+description: ''
+last_updated_timestamp: 1733657893087
+name: WeatherPredictionModel
+run_id: d90350b62d034158a3a4e442e24ceac2
+run_link: ''
+source: runs:/d90350b62d034158a3a4e442e24ceac2/model
+status: READY
+status_message: null
+storage_location: runs:/d90350b62d034158a3a4e442e24ceac2/model
+user_id: null
+version: 1

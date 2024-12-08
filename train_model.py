@@ -1,40 +1,66 @@
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from datetime import datetime, timedelta
-import subprocess
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+import mlflow
+import mlflow.sklearn
+import pickle
+from mlflow.tracking import MlflowClient
 
-def fetch_weather():
-    subprocess.run(["python", "fetch_weather_data.py"])
 
-def preprocess_weather():
-    subprocess.run(["python", "preprocess_data.py"])
+def train_model():
+    # Load data
+    df = pd.read_csv('processed_data.csv')
+    X = df[['Humidity', 'Wind Speed']]
+    y = df['Temperature']
 
-default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'email_on_failure': False,
-    'email_on_retry': False,
-    'retries': 1,
-    'retry_delay': timedelta(minutes=5),
-}
+    # Train model
+    model = LinearRegression()
+    model.fit(X, y)
 
-with DAG(
-    'weather_pipeline',
-    default_args=default_args,
-    description='A simple weather data pipeline',
-    schedule_interval=timedelta(days=1),
-    start_date=datetime(2023, 1, 1),
-    catchup=False,
-) as dag:
+    # Evaluate model
+    predictions = model.predict(X)
+    mse = mean_squared_error(y, predictions)
 
-    fetch_task = PythonOperator(
-        task_id='fetch_weather_data',
-        python_callable=fetch_weather
-    )
+    # Set up MLFlow
+    mlflow.set_tracking_uri("http://localhost:5000")  # Adjust for remote server
+    mlflow.set_experiment("Weather Prediction")
 
-    preprocess_task = PythonOperator(
-        task_id='preprocess_data',
-        python_callable=preprocess_weather
-    )
+    with mlflow.start_run() as run:
+        # Log parameters, metrics, and the model
+        mlflow.log_param("model_type", "LinearRegression")
+        mlflow.log_param("features", ['Humidity', 'Wind Speed'])
+        mlflow.log_metric("mse", mse)
+        mlflow.sklearn.log_model(model, "model")
 
-    fetch_task >> preprocess_task
+        print("Model logged to MLFlow")
+
+        # Get the run ID
+        run_id = run.info.run_id
+
+        # Register the model in the Model Registry
+        client = MlflowClient()
+        model_uri = f"runs:/{run_id}/model"
+        registered_model = client.create_registered_model("WeatherPredictionModel")
+        result = client.create_model_version(
+            name="WeatherPredictionModel",
+            source=model_uri,
+            run_id=run_id
+        )
+        print(f"Model registered with version: {result.version}")
+
+        # Optionally transition the model to a specific stage
+        client.transition_model_version_stage(
+            name="WeatherPredictionModel",
+            version=result.version,
+            stage="Staging"
+        )
+        print(f"Model transitioned to Staging stage.")
+
+    # Save locally for pipeline continuity
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+    print("Model saved locally to model.pkl")
+
+
+if __name__ == "__main__":
+    train_model()

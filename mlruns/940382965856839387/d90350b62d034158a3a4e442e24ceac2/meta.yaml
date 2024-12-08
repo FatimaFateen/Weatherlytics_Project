@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/940382965856839387/d90350b62d034158a3a4e442e24ceac2/artifacts
+end_time: 1733657893149
+entry_point_name: ''
+experiment_id: '940382965856839387'
+lifecycle_stage: active
+run_id: d90350b62d034158a3a4e442e24ceac2
+run_name: mercurial-panda-747
+run_uuid: d90350b62d034158a3a4e442e24ceac2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1733657879303
+status: 3
+tags: []
+user_id: DELL
