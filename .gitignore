@@ -1,1 +1,65 @@
+# Node modules (React app dependencies)
+node_modules/
 
+# Build output for React (Webpack, Create React App)
+build/
+
+# React app environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Python-related files (Flask backend)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Flask environment variables (for sensitive info like JWT secret, Mongo URI)
+.env
+
+# Flask app's SQLite database (if applicable)
+instance/
+*.db
+
+# Test, coverage, and report directories
+coverage/
+*.cover
+*.log
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings (if you use PyCharm)
+.idea/
+
+# Docker and Kubernetes files
+docker-compose.override.yml
+docker-compose.yml
+
+# Python virtual environment
+venv/
+env/
+*.egg-info/
+
+# Frontend build artifacts (React production build)
+build/
+
+# Frontend dependency files
+yarn.lock
+package-lock.json
+
+# If you use any other sensitive files like keys, add them here
+*.pem
+*.key
