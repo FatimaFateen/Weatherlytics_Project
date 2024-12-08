@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-backend
+spec:
+  replicas: 1  # Number of replicas (you can increase this for scaling)
+  selector:
+    matchLabels:
+      app: flask-backend
+  template:
+    metadata:
+      labels:
+        app: flask-backend
+    spec:
+      containers:
+      - name: flask-backend
+        image: your-dockerhub-username/mlops-project:latest  # Replace with your image name
+        ports:
+        - containerPort: 5001  # Flask backend is hosted on port 5001
+        env:
+        - name: FLASK_ENV
+          value: "production"
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secrets
+              key: uri
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secrets
+              key: MySecretKey
